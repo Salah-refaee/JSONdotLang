@@ -82,4 +82,4 @@ this is the official interpreter, if you can rewrite this language to another Pr
 ---
 
 > This FOSS is licensed under the MIT License.
-© 2025 Salah Refaae and Contributes
+© 2025 Salah Refaae
