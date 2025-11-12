@@ -1,0 +1,231 @@
+[
+    # Initialize the game board
+    ("var", "c0", " "),("var", "c1", " "),("var", "c2", " "),
+    ("var", "c3", " "),("var", "c4", " "),("var", "c5", " "),
+    ("var", "c6", " "),("var", "c7", " "),("var", "c8", " "),
+    
+    # Initialize current player (X starts)
+    ("var", "player", "X"),
+    
+    # function to change the player
+    ("func", "change", ["p"], [
+        ("if", ("==", "$p", "X"), [
+            ("var", "player", "O"),
+            ("export", "player")
+        ], [
+            ("var", "player", "X"),
+            ("export", "player")
+        ])
+    ]),
+    
+    
+    ("func", "print_grid", [], [
+        ("print", "$c0", '|', "$c1", "|", "$c2", '\n'),
+        ("print", "--", '+', "---", "+", "--", '\n'),
+        ("print", "$c3", '|', "$c4", "|", "$c5", '\n'),
+        ("print", "--", '+', "---", "+", "--", '\n'),
+        ("print", "$c6", '|', "$c7", "|", "$c8", '\n'),
+    ]),
+    
+    ("func", "check", [], [
+        ("print", "checking\n"),
+        
+        # C-C-C matched Horizontally (—)
+        ("if", ("and", ("and",
+            ('==', "$c0", "$c1"),
+            ("==", "$c1", "$c2")
+        ), ("!=", "$c0", ' ')), [
+            ("print", ("+", "$c0", " wins!\n")),
+            ("exit", 0)
+        ], [
+           ("if", ("and", ("and",
+               ('==', "$c3", "$c4"),
+               ("==", "$c4", "$c5")
+           ), ("!=", "$c3", ' ')), [
+               ("print", ("+", "$c3", " wins!\n")),
+               ("exit", 0)
+           ], [
+               ("if", ("and", ("and",
+                   ('==', "$c6", "$c7"),
+                   ("==", "$c7", "$c8")
+               ), ("!=", "$c6", ' ')), [
+                   ("print", ("+", "$c6", " wins!\n")),
+                   ("exit", 0)
+               ])
+           ])
+        ]),
+        
+        # C-C-C matched Vertically (|)
+        ("if", ("and", ("and",
+            ('==', "$c0", "$c3"),
+            ("==", "$c3", "$c6")
+        ), ("!=", "$c0", ' ')), [
+            ("print", ("+", "$c0", " wins!\n")),
+            ("exit", 0)
+        ], [
+           ("if", ("and", ("and",
+               ('==', "$c1", "$c4"),
+               ("==", "$c4", "$c7")
+           ), ("!=", "$c4", ' ')), [
+               ("print", ("+", "$c4", " wins!\n")),
+               ("exit", 0)
+           ], [
+               ("if", ("and", ("and",
+                   ('==', "$c2", "$c5"),
+                   ("==", "$c5", "$c8")
+               ), ("!=", "$c5", ' ')), [
+                   ("print", ("+", "$c5", " wins!\n")),
+                   ("exit", 0)
+               ])
+           ])
+        ]),
+        
+        # C-C-C matched diagonally (/ or \)
+        ("if", ("or",
+            ("and",
+                ("and",
+                    ("==", "$c0", "$c4"),
+                    ("==", "$c4", "$c8")
+                ),
+                ("!=", "$c4", " ")
+            ),
+            ("and",
+                ("and",
+                    ("==", "$c2", "$c4"),
+                    ("==", "$c4", "$c6")
+                ),
+                ("!=", "$c4", " ")
+            )
+        ), [
+            ("print", ("+", "$c4", " wins!\n")),
+            ("exit", 0)
+        ]),
+        
+        # fallback
+        ("return", None)
+    ]),
+    
+    ("func", "check_if_draw", [], [
+        ("if", ("and",
+            ("!=", "$c0", " "),
+            ("!=", "$c1", " "),
+            ("!=", "$c2", " "),
+            ("!=", "$c3", " "),
+            ("!=", "$c4", " "),
+            ("!=", "$c5", " "),
+            ("!=", "$c6", " "),
+            ("!=", "$c7", " "),
+            ("!=", "$c8", " ")
+        ), [
+            ("print", "It's a draw!\n"),
+            ("exit", 1)
+        ])
+    ]),
+    
+    ("func", "select", [], [
+        ("while", (1), [
+            ("print", ("+", "$player", "'s turn,"), " select cell (0-8): "),
+            ("var", "selected", ("input", "str")),
+            ("if", ("!->", "$selected", ["0", "1", "2", "3", "4", "5", "6", "7", "8"]), [("print", "invalid input.\n"), ("continue",)]),
+            ("var", "selected", ("int", "$selected")),
+            ("if", ("!->", "$selected", [0, 1, 2, 3, 4, 5, 6, 7, 8]), [("print", "invalid input.\n"), ("continue",)]),
+            ("switch", "$selected",
+                {0: [
+                    ("if", ("==", "$c0", " "), [
+                        ("var", "c0", "$player"),
+                        ("export", "c0"),
+                        ("break",)
+                    ], [
+                        ("print", "cell already taken.\n"), ("continue",)
+                    ])
+                ]},
+                {1: [
+                    ("if", ("==", "$c1", " "), [
+                        ("var", "c1", "$player"),
+                        ("export", "c1"),
+                        ("break",)
+                    ], [
+                        ("print", "cell already taken.\n"), ("continue",)
+                    ])
+                ]},
+                {2: [
+                    ("if", ("==", "$c2", " "), [
+                        ("var", "c2", "$player"),
+                        ("export", "c2"),
+                        ("break",)
+                    ], [
+                        ("print", "cell already taken.\n"), ("continue",)
+                    ])
+                ]},
+                {3: [
+                    ("if", ("==", "$c3", " "), [
+                        ("var", "c3", "$player"),
+                        ("export", "c3"),
+                        ("break",)
+                    ], [
+                        ("print", "cell already taken.\n"), ("continue",)
+                    ])
+                ]},
+                {4: [
+                    ("if", ("==", "$c4", " "), [
+                        ("var", "c4", "$player"),
+                        ("export", "c4"),
+                        ("break",)
+                    ], [
+                        ("print", "cell already taken.\n"), ("continue",)
+                    ])
+                ]},
+                {5: [
+                    ("if", ("==", "$c5", " "), [
+                        ("var", "c5", "$player"),
+                        ("export", "c5"),
+                        ("break",)
+                    ], [
+                        ("print", "cell already taken.\n"), ("continue",)
+                    ])
+                ]},
+                {6: [
+                    ("if", ("==", "$c6", " "), [
+                        ("var", "c6", "$player"),
+                        ("export", "c6"),
+                        ("break",)
+                    ], [
+                        ("print", "cell already taken.\n"), ("continue",)
+                    ])
+                ]},
+                {7: [
+                    ("if", ("==", "$c7", " "), [
+                        ("var", "c7", "$player"),
+                        ("export", "c7"),
+                        ("break",)
+                    ], [
+                        ("print", "cell already taken.\n"), ("continue",)
+                    ])
+                ]},
+                {8: [
+                    ("if", ("==", "$c8", " "), [
+                        ("var", "c8", "$player"),
+                        ("export", "c8"),
+                        ("break",)
+                    ], [
+                        ("print", "cell already taken.\n"), ("continue",)
+                    ])
+                ]},
+                [
+                    ("print", "invalid cell.\n"), ("continue",)
+                ]
+            )
+        ])
+    ]),
+    
+    # main game
+    ("print", "Welcome to TicTacToe - JSON.lang implementation!\ncell indexs:\n"),
+    ("print", "0 | 1 | 2\n"),
+    ("print", "--+---+--\n"),
+    ("print", "3 | 4 | 5\n"),
+    ("print", "--+---+--\n"),
+    ("print", "6 | 7 | 8\n"),
+    ("while", (1), [
+        ("select",), ("print_grid",), ("check",), ("check_if_draw",), ("change", "$player")
+    ])
+                    ]
