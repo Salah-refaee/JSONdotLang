@@ -1,3 +1,5 @@
+![Logo](Polish_20251112_202004235.png)
+
 # JSON.Lang
 
 A small interpreted language that works using Lists of Tuples and Dicts, Entirely!
@@ -12,7 +14,6 @@ JSON.lang programs are written as lists of tuples, where the first element in th
 The language has a **global scope** and **nested local scopes** for variables/functions.  
 
 ## Basic instructions:
-
 * `var name value` – define or assign a variable.  
 * `func name [params] [body]` – define a function with parameters and body.  
 * `return value` – return a value from a function.  
