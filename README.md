@@ -74,11 +74,11 @@ Looping:
 ...more things (see tic_tac_toe.json.lang!)
 
 ## == Interpreter info ==
-Well, this Language still unstable, but the official interpreter coded in Python <sadly :)
+Well, this Language still unstable, but the official interpreter coded in Python << sadly :) >>
 
 this is the official interpreter, if you can rewrite this language to another Programming Language like C, thank you!
 
 ---
 
-> This FOSS product is licensed under the MIT License.
+> This FOSS is licensed under the MIT License.
 © 2025 Salah Refaae and Contributes
